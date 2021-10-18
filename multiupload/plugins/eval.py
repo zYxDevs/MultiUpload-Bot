@@ -26,9 +26,7 @@ async def bash(cmd):
 @anjana.on(events.NewMessage(pattern='^/bash ?(.*)'))
 async def runner(event):
 	kk = await event.get_chat()
-	if kk.id == int(os.environ.get("OWNRID")):
-		pass
-	else:
+	if kk.id != int(os.environ.get("OWNRID")):
 		return await anjana.send_message(event.chat_id, "You are not a Developer")
 
 	cmd = "".join(event.message.message.split(maxsplit=1)[1:])
@@ -37,17 +35,13 @@ async def runner(event):
 		await anjana.send_message(event.chat_id, f'**CMD:** `{cmd}`\n**OUTPUT:**\n `{out}`')
 	elif err:
 		await anjana.send_message(event.chat_id, f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`')
-	elif out and err:
-		await anjana.send_message(event.chat_id, f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`\n**OUTPUT:**\n `{out}`')
 	else:
 		await anjana.send_message(event.chat_id, f'**CMD:** `{cmd}`')
 
 @anjana.on(events.NewMessage(pattern='^/eval ?(.*)'))
 async def evaluation_cmd_t(event):
 	kk = await event.get_chat()
-	if kk.id == int(os.environ.get("OWNRID")):
-		pass
-	else:
+	if kk.id != int(os.environ.get("OWNRID")):
 		return await anjana.send_message(event.chat_id, "You are not a Developer")
 
 	status_message = await event.reply("Processing...")
@@ -96,8 +90,6 @@ async def evaluation_cmd_t(event):
 
 
 async def aexec(code, event):
-	exec(
-		f'async def __aexec(event): ' +
-		''.join(f'\n {l}' for l in code.split('\n'))
-	)
+	exec(('async def __aexec(event): ' + ''.join(f'\n {l}'
+	                                             for l in code.split('\n'))))
 	return await locals()['__aexec'](event)

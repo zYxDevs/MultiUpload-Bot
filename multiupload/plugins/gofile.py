@@ -15,9 +15,7 @@ async def gofile(event):
 	user_id = event.sender_id
 	if event.is_private and not await check_participant(user_id, f'@{Config.CHNAME}', event):
 		return
-	if event.reply_to_msg_id:
-		pass
-	else:
+	if not event.reply_to_msg_id:
 		return await event.edit("Please Reply to File")
 
 	async with anjana.action(event.chat_id, 'typing'):
