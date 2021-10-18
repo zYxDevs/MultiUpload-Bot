@@ -23,11 +23,10 @@ async def start(event):
 	xx = await event.get_chat()
 	if event.is_private and not await check_participant(user_id, f'@{Config.CHNAME}', event):
 		return
-	else:
-		await anjana.send_file(event.chat_id, random.choice(s), reply_to=event)
-		await event.reply(f"Hey [{xx.first_name}]({xx.id}), I am **MultiUploader**", buttons=[
-				Button.url('Support Chat 💭', 't.me/hxsupport')
-			])
+	await anjana.send_file(event.chat_id, random.choice(s), reply_to=event)
+	await event.reply(f"Hey [{xx.first_name}]({xx.id}), I am **MultiUploader**", buttons=[
+			Button.url('Support Chat 💭', 't.me/hxsupport')
+		])
 
 
 @anjana.on(events.NewMessage(pattern='^/help'))
@@ -38,8 +37,7 @@ async def help(event):
 	xx = await event.get_chat()
 	if event.is_private and not await check_participant(user_id, f'@{Config.CHNAME}', event):
 		return
-	else:
-		helpmsg = '''
+	helpmsg = '''
 ➖ **Help Menu | MultiUpload Bot**➖
 ● `/gofile` - Upload files to GoFile
 ● `/anonfile` - Upload files to AnonFile
@@ -51,6 +49,6 @@ async def help(event):
 ● `/mixdrop` - Upload files to MixDrop
 ✦ **Powered By [oVoIndia]**(https://github.com/oVoIndia)
 ✦ Made with ♥️ by [HxBots](t.me/hxbots)'''
-		await event.reply(helpmsg, buttons=[
-				Button.url('Support Chat 💭', 't.me/hxsupport')
-			], link_preview=False)
+	await event.reply(helpmsg, buttons=[
+			Button.url('Support Chat 💭', 't.me/hxsupport')
+		], link_preview=False)
